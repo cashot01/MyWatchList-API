@@ -30,7 +30,12 @@
         <li th:each="f : ${filmes}">
             <span>
                 <strong th:text="${f.titulo}"></strong>
-                (<span th:text="${f.tipo}"></span>)
+                <span th:text="${f.status != null and f.status.name() == 'ASSISTIDO'
+    ? '🎬 Assistido'
+    : '⭐ Watchlist'}">
+</span>
+
+
             </span>
 
             <div class="acoes">

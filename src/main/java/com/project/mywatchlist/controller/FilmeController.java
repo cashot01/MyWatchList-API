@@ -68,15 +68,6 @@ public class FilmeController {
     }
 
 
-    // UPDATE - atualizar
-    @PostMapping("/atualizar/{id}")
-    public String atualizar(@PathVariable Long id, @ModelAttribute Filme filme) {
-        filme.setId(id);
-        service.salvar(filme);
-        return "redirect:/filmes";
-    }
-
-
     // DELETE
     @GetMapping("/deletar/{id}")
     public String deletar(@PathVariable Long id) {

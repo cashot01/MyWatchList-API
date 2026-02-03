@@ -11,6 +11,7 @@
     <h1 th:text="${filme.id == null ? '🎬 Cadastrar Filme / Série' : '✏️ Editar Filme / Série'}"></h1>
 
     <form th:action="@{/filmes}" th:object="${filme}" method="post" class="form-card">
+        <input type="hidden" th:field="*{id}">
 
         <!-- TÍTULO -->
         <div class="campo">
@@ -22,22 +23,24 @@
         <!-- TIPO -->
         <div class="campo">
             <label for="tipo">Tipo</label>
-            <select id="tipo" th:field="*{tipo}">
+            <select id="tipo" th:field="*{tipo}" required>
                 <option value="FILME">🎥 Filme</option>
                 <option value="SERIE">📺 Série</option>
             </select>
         </div>
 
         <!-- STATUS -->
-        <div class="linha">
+        <div class="campo">
+            <label>Status</label>
+
             <label class="check">
-                <input type="checkbox" th:field="*{assistido}">
-                Assistido
+                <input type="radio" th:field="*{status}" value="ASSISTIDO" required>
+                🎬 Assistido
             </label>
 
             <label class="check">
-                <input type="checkbox" th:field="*{naWatchlist}">
-                Na Watchlist
+                <input type="radio" th:field="*{status}" value="WATCHLIST">
+                ⭐ Watchlist
             </label>
         </div>
 
@@ -45,14 +48,14 @@
         <div class="campo">
             <label for="nota">Nota (0 a 10)</label>
             <input id="nota" type="number" th:field="*{nota}"
-                   min="0" max="10" placeholder="8">
+                   min="0" max="10" placeholder="8" required>
         </div>
 
         <!-- REVIEW -->
         <div class="campo">
             <label for="review">Review</label>
             <textarea id="review" th:field="*{review}"
-                      placeholder="O que você achou do filme ou série?"></textarea>
+                      placeholder="O que você achou do filme ou série?" required></textarea>
         </div>
 
         <!-- BOTÕES -->

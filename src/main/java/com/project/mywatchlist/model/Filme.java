@@ -1,6 +1,7 @@
 package com.project.mywatchlist.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "filmes")
@@ -14,25 +15,25 @@ public class Filme {
 
     private String tipo; // FILME ou SERIE
 
-    private boolean assistido;
-
     private Integer nota; // 1 a 5
 
     private String review;
 
-    private boolean naWatchlist;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private StatusFilme status;
+
 
     public Filme() {
     }
 
-    public Filme(Long id, String titulo, String tipo, boolean assistido, Integer nota, String review, boolean naWatchlist) {
+    public Filme(Long id, String titulo, String tipo, Integer nota, String review, StatusFilme status) {
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
-        this.assistido = assistido;
         this.nota = nota;
         this.review = review;
-        this.naWatchlist = naWatchlist;
+        this.status = status;
     }
 
     public Long getId() {
@@ -59,13 +60,7 @@ public class Filme {
         this.tipo = tipo;
     }
 
-    public boolean isAssistido() {
-        return assistido;
-    }
 
-    public void setAssistido(boolean assistido) {
-        this.assistido = assistido;
-    }
 
     public Integer getNota() {
         return nota;
@@ -83,11 +78,11 @@ public class Filme {
         this.review = review;
     }
 
-    public boolean isNaWatchlist() {
-        return naWatchlist;
+    public StatusFilme getStatus() {
+        return status;
     }
 
-    public void setNaWatchlist(boolean naWatchlist) {
-        this.naWatchlist = naWatchlist;
+    public void setStatus(StatusFilme status) {
+        this.status = status;
     }
 }
