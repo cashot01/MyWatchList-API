@@ -1,0 +1,208 @@
+/* === ESTILO GLOBAL RESPONSIVO === */
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* === DASHBOARD === */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.card strong {
+    display: block;
+    font-size: 2rem;
+    margin-top: 10px;
+}
+
+/* === FILTROS === */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtros a {
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.filtros a:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.filtros .novo {
+    margin-left: auto;
+    background: #4caf50;
+    font-weight: bold;
+}
+
+/* === LISTA === */
+.lista {
+    list-style: none;
+    padding: 0;
+}
+
+.lista li {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    margin-bottom: 12px;
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 14px;
+}
+
+/* === FORM UX FIRST === */
+.form-card {
+    max-width: 650px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.14);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.95);
+    color: #333;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76,175,80,0.4);
+}
+
+.campo textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* CHECKBOXES */
+.linha {
+    display: flex;
+    gap: 25px;
+    margin-top: 5px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.check input {
+    width: 20px;
+    height: 20px;
+}
+
+/* BOTÕES */
+.botoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.botoes button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    background: #4caf50;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botoes button:hover {
+    background: #43a047;
+}
+
+.voltar {
+    flex: 1;
+    text-align: center;
+    padding: 14px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.voltar:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    .form-card {
+    padding: 22px;
+    }
+
+    .linha {
+    flex-direction: column;
+    gap: 12px;
+    }
+
+    .botoes {
+    flex-direction: column;
+    }
+}

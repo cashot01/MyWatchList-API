@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyWatchlist</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎬 MyWatchlist</h1>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+        <div class="card">Total<br><strong th:text="${total}"></strong></div>
+        <div class="card">Assistidos<br><strong th:text="${assistidos}"></strong></div>
+        <div class="card">Watchlist<br><strong th:text="${watchlist}"></strong></div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtros">
+        <a href="/filmes">Todos</a>
+        <a href="/filmes?filtro=assistidos">Assistidos</a>
+        <a href="/filmes?filtro=watchlist">Watchlist</a>
+        <a class="novo" href="/filmes/novo">+ Novo</a>
+    </div>
+
+    <!-- LISTA -->
+    <ul class="lista">
+        <li th:each="f : ${filmes}">
+            <span>
+                <strong th:text="${f.titulo}"></strong>
+                (<span th:text="${f.tipo}"></span>)
+            </span>
+
+            <div class="acoes">
+                <a th:href="@{/filmes/editar/{id}(id=${f.id})}">✏️</a>
+                <a th:href="@{/filmes/deletar/{id}(id=${f.id})}">🗑️</a>
+            </div>
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>
