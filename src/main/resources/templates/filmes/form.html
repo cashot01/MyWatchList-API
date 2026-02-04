@@ -16,16 +16,32 @@
         <!-- TÍTULO -->
         <div class="campo">
             <label for="titulo">Título</label>
-            <input id="titulo" type="text" th:field="*{titulo}"
-                   placeholder="Ex: Interestelar" required>
+            <input id="titulo"
+                   type="text"
+                   th:field="*{titulo}"
+                   placeholder="Ex: Interestelar"
+                   required>
         </div>
 
         <!-- TIPO -->
         <div class="campo">
             <label for="tipo">Tipo</label>
             <select id="tipo" th:field="*{tipo}" required>
-                <option value="FILME">🎥 Filme</option>
-                <option value="SERIE">📺 Série</option>
+                <option value="" disabled selected>Selecione o tipo</option>
+                <option th:value="FILME">🎥 Filme</option>
+                <option th:value="SERIE">📺 Série</option>
+            </select>
+        </div>
+
+        <!-- GÊNERO -->
+        <div class="campo">
+            <label for="genero">Gênero</label>
+            <select id="genero" th:field="*{genero}" required>
+                <option value="" disabled selected>Selecione o gênero</option>
+                <option th:each="g : ${T(com.project.mywatchlist.model.Genero).values()}"
+                        th:value="${g}"
+                        th:text="${g}">
+                </option>
             </select>
         </div>
 
@@ -34,28 +50,40 @@
             <label>Status</label>
 
             <label class="check">
-                <input type="radio" th:field="*{status}" value="ASSISTIDO" required>
+                <input type="radio"
+                       th:field="*{status}"
+                       value="ASSISTIDO"
+                       required>
                 🎬 Assistido
             </label>
 
             <label class="check">
-                <input type="radio" th:field="*{status}" value="WATCHLIST">
+                <input type="radio"
+                       th:field="*{status}"
+                       value="WATCHLIST">
                 ⭐ Watchlist
             </label>
         </div>
 
         <!-- NOTA -->
         <div class="campo">
-            <label for="nota">Nota (0 a 10)</label>
-            <input id="nota" type="number" th:field="*{nota}"
-                   min="0" max="10" placeholder="8" required>
+            <label for="nota">Nota (1 a 10)</label>
+            <input id="nota"
+                   type="number"
+                   th:field="*{nota}"
+                   min="1"
+                   max="10"
+                   placeholder="8"
+                   required>
         </div>
 
         <!-- REVIEW -->
         <div class="campo">
             <label for="review">Review</label>
-            <textarea id="review" th:field="*{review}"
-                      placeholder="O que você achou do filme ou série?" required></textarea>
+            <textarea id="review"
+                      th:field="*{review}"
+                      placeholder="O que você achou do filme ou série?"
+                      required></textarea>
         </div>
 
         <!-- BOTÕES -->

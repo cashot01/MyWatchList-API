@@ -1,88 +1,52 @@
 package com.project.mywatchlist.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "filmes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Filme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "titulo do filme não pode estar vazio")
+    @Column(name = "titulo")
     private String titulo;
 
-    private String tipo; // FILME ou SERIE
+    @Column(name = "tipo")
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo; // filme ou serie
 
-    private Integer nota; // 1 a 5
+    @Column(name = "genero")
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
 
+    @NotNull(message = "nota não pode ser nula")
+    @Min(1)
+    @Max(10)
+    @Column(name = "nota")
+    private Integer nota; // 1 a 10
+
+    @NotBlank(message = "review não pode ser nula")
+    @Column(name = "review")
     private String review;
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name = "status")
     private StatusFilme status;
 
-
-    public Filme() {
-    }
-
-    public Filme(Long id, String titulo, String tipo, Integer nota, String review, StatusFilme status) {
-        this.id = id;
-        this.titulo = titulo;
-        this.tipo = tipo;
-        this.nota = nota;
-        this.review = review;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-
-
-    public Integer getNota() {
-        return nota;
-    }
-
-    public void setNota(Integer nota) {
-        this.nota = nota;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public StatusFilme getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusFilme status) {
-        this.status = status;
-    }
 }

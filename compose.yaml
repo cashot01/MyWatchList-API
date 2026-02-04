@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_g
+    environment:
+      POSTGRES_DB: mywatchlist
+      POSTGRES_USER: mywatchlist
+      POSTGRES_PASSWORD: mywatchlist
+    ports:
+      - "5432:5432"
