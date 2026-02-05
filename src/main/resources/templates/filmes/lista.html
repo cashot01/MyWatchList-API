@@ -19,31 +19,139 @@
 
     <!-- FILTROS -->
     <div class="filtros">
-        <a href="/filmes">Todos</a>
-        <a href="/filmes?filtro=assistidos">Assistidos</a>
-        <a href="/filmes?filtro=watchlist">Watchlist</a>
-        <a class="novo" href="/filmes/novo">+ Novo</a>
+        <a th:href="@{/filmes}">Todos</a>
+        <a th:href="@{/filmes(filtro='assistidos')}">Assistidos</a>
+        <a th:href="@{/filmes(filtro='watchlist')}">Watchlist</a>
+        <a class="novo" th:href="@{/filmes/novo}">+ Novo</a>
+
+        <!-- Botão de Logout -->
+        <a th:href="@{/logout}" class="logout-btn" onclick="return confirm('Deseja sair?');">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
     </div>
 
-    <!-- LISTA -->
-    <ul class="lista">
-        <li th:each="f : ${filmes}">
-            <span>
-                <strong th:text="${f.titulo}"></strong>
-                <span th:text="${f.status != null and f.status.name() == 'ASSISTIDO'
-    ? '🎬 Assistido'
-    : '⭐ Watchlist'}">
-</span>
+    <!-- MENSAGEM DE FEEDBACK -->
+    <div th:if="${mensagem}" class="alert" th:classappend="${sucesso} ? 'alert-success' : 'alert-danger'">
+        <i th:classappend="${sucesso} ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
+        <span th:text="${mensagem}"></span>
+    </div>
 
+    <!-- TABELA DE FILMES -->
+    <div class="card p-3">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Gênero</th>
+                    <th>Nota</th>
+                    <th>Review</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="filme : ${filmes}">
+                    <td data-label="ID" th:text="${filme.id}"></td>
+                    <td data-label="Título" th:text="${filme.titulo}"></td>
+                    <td data-label="Tipo">
+                            <span class="badge" th:classappend="${filme.tipo == 'FILME'} ? 'badge-filme' : 'badge-serie'"
+                                  th:text="${filme.tipo}"></span>
+                    </td>
+                    <td data-label="Gênero">
+                        <span class="genero-badge" th:text="${filme.genero}"></span>
+                    </td>
+                    <td data-label="Nota">
+                        <div class="nota-container">
+                            <span class="estrelas">★</span>
+                            <span class="nota-valor" th:text="${filme.nota}"></span>
+                        </div>
+                    </td>
+                    <td data-label="Review" th:text="${filme.review}"></td>
+                    <td data-label="Status">
+                            <span class="badge" th:classappend="${filme.status == 'ASSISTIDO'} ? 'badge-assistido' : 'badge-watchlist'"
+                                  th:text="${filme.status}"></span>
+                    </td>
+                    <td data-label="Ações">
+                        <a th:href="@{/filmes/editar/{id}(id=${filme.id})}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a th:href="@{/filmes/deletar/{id}(id=${filme.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Tem certeza que deseja excluir este filme?');">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            </span>
+    <!-- PAGINAÇÃO -->
+    <nav aria-label="Paginação" th:if="${totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <!-- Botão Primeira Página -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=0, size=${pageSize})}">
+                    <i class="fas fa-angle-double-left"></i> Primeira
+                </a>
+            </li>
 
-            <div class="acoes">
-                <a th:href="@{/filmes/editar/{id}(id=${f.id})}">✏️</a>
-                <a th:href="@{/filmes/deletar/{id}(id=${f.id})}">🗑️</a>
-            </div>
-        </li>
-    </ul>
+            <!-- Botão Anterior -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage - 1}, size=${pageSize})}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </a>
+            </li>
+
+            <!-- Números de Página (com lógica inteligente) -->
+            <li class="page-item" th:if="${currentPage > 2}" th:classappend="${currentPage == 0} ? 'active'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=0, size=${pageSize})}">1</a>
+            </li>
+
+            <li class="page-item disabled" th:if="${currentPage > 3}">
+                <span class="page-link">...</span>
+            </li>
+
+            <li class="page-item" th:each="i : ${#numbers.sequence(currentPage > 1 ? currentPage - 1 : 0,
+                                                                     currentPage < totalPages - 2 ? currentPage + 1 : totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${i}, size=${pageSize})}"
+                   th:text="${i + 1}"></a>
+            </li>
+
+            <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+                <span class="page-link">...</span>
+            </li>
+
+            <li class="page-item" th:if="${currentPage < totalPages - 3}"
+                th:classappend="${currentPage == totalPages - 1} ? 'active'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${totalPages - 1}, size=${pageSize})}"
+                   th:text="${totalPages}"></a>
+            </li>
+
+            <!-- Botão Próxima -->
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage + 1}, size=${pageSize})}">
+                    Próxima <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+
+            <!-- Botão Última Página -->
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${totalPages - 1}, size=${pageSize})}">
+                    Última <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Informação de Página -->
+        <div class="text-center mt-3">
+            <small th:text="'Página ' + (${currentPage} + 1) + ' de ' + ${totalPages} + ' | Total: ' + ${totalItems} + ' filmes'"></small>
+        </div>
+    </nav>
 
 </div>
 
