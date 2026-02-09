@@ -2,6 +2,9 @@ package com.project.mywatchlist.controller;
 
 import com.project.mywatchlist.model.Filme;
 import com.project.mywatchlist.service.FilmeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/filmes")
+@Tag(name = "Filmes", description = "Gerenciamento de filmes da watchlist")
 public class FilmeController {
 
     private final FilmeService service;
@@ -22,9 +26,13 @@ public class FilmeController {
      * Lista filmes com paginação e filtros
      */
     @GetMapping
+    @Operation(summary = "Listar filmes com paginação e filtros")
     public String listar(
+            @Parameter(description = "Filtro: 'assistidos', 'watchlist' ou null para todos")
             @RequestParam(required = false) String filtro,
+            @Parameter(description = "Número da página (começa em 0)")
             @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Tamanho da página")
             @RequestParam(defaultValue = "5") int size,
             Model model) {
 
@@ -61,6 +69,7 @@ public class FilmeController {
      * Exibe formulário de novo filme
      */
     @GetMapping("/novo")
+    @Operation(summary = "Exibir formulário de novo filme")
     public String novoFilme(Model model) {
         model.addAttribute("filme", new Filme());
         return "filmes/form";
@@ -70,6 +79,7 @@ public class FilmeController {
      * Salva novo filme
      */
     @PostMapping
+    @Operation(summary = "Salvar novo filme")
     public String salvar(@ModelAttribute Filme filme, Model model) {
         try {
             service.salvar(filme);
@@ -87,7 +97,11 @@ public class FilmeController {
      * Exibe formulário de edição
      */
     @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Long id, Model model) {
+    @Operation(summary = "Exibir formulário de edição de filme")
+    public String editar(
+            @Parameter(description = "ID do filme a ser editado")
+            @PathVariable Long id,
+            Model model) {
         Filme filme = service.buscarPorId(id);
         model.addAttribute("filme", filme);
         return "filmes/form";
@@ -97,7 +111,12 @@ public class FilmeController {
      * Atualiza filme existente
      */
     @PostMapping("/editar/{id}")
-    public String atualizar(@PathVariable Long id, @ModelAttribute Filme filme, Model model) {
+    @Operation(summary = "Atualizar filme existente")
+    public String atualizar(
+            @Parameter(description = "ID do filme a ser atualizado")
+            @PathVariable Long id,
+            @ModelAttribute Filme filme,
+            Model model) {
         try {
             filme.setId(id);
             service.salvar(filme);
@@ -115,7 +134,11 @@ public class FilmeController {
      * Deleta filme
      */
     @GetMapping("/deletar/{id}")
-    public String deletar(@PathVariable Long id, Model model) {
+    @Operation(summary = "Deletar filme")
+    public String deletar(
+            @Parameter(description = "ID do filme a ser deletado")
+            @PathVariable Long id,
+            Model model) {
         try {
             service.deletar(id);
             model.addAttribute("mensagem", "Filme excluído com sucesso!");
