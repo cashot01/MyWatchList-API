@@ -447,17 +447,38 @@ h1 {
     }
 }
 
-/* === PAGINAÇÃO === */
-.pagination {
+/* === PAGINAÇÃO SIMPLIFICADA === */
+.pagination-container {
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.page-item {
+    display: inline-block;
 }
 
 .page-item.active .page-link {
     background: linear-gradient(135deg, #4caf50, #66bb6a);
     border-color: #4caf50;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.page-item.disabled .page-link {
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .page-link {
@@ -465,18 +486,57 @@ h1 {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 40px;
+    text-align: center;
     transition: all 0.3s ease;
+    font-weight: 500;
 }
 
-.page-link:hover {
+.page-link:hover:not(.disabled) {
     background: rgba(255, 255, 255, 0.25);
     color: #ffd700;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.page-item.disabled .page-link {
-    color: rgba(255, 255, 255, 0.4);
-    cursor: not-allowed;
+/* Informações de paginação */
+.pagination-info {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+/* RESPONSIVO - PAGINAÇÃO */
+@media (max-width: 768px) {
+    .pagination {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .page-link {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-link {
+        padding: 8px 12px;
+        min-width: 35px;
+        font-size: 0.9rem;
+    }
+
+    .pagination-info {
+        font-size: 0.85rem;
+    }
 }
 
 /* === ALERTAS === */

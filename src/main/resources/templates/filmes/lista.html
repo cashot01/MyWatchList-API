@@ -89,67 +89,62 @@
         </div>
     </div>
 
-    <!-- PAGINAÇÃO -->
-    <nav aria-label="Paginação" th:if="${totalPages > 1}">
-        <ul class="pagination justify-content-center">
-            <!-- Botão Primeira Página -->
+    <!-- PAGINAÇÃO CORRIGIDA -->
+    <nav aria-label="Paginação" th:if="${totalPages > 1}" class="pagination-container">
+        <div class="pagination-info">
+            <span th:text="'Mostrando ' + ${#lists.size(filmes)} + ' de ' + ${totalItems} + ' filmes'"></span>
+        </div>
+
+        <ul class="pagination">
+            <!-- Botão Primeira -->
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=0, size=${pageSize})}">
-                    <i class="fas fa-angle-double-left"></i> Primeira
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=0, size=${pageSize})}"
+                   th:if="${currentPage > 0}" aria-label="Primeira">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
                 </a>
+                <span class="page-link" th:if="${currentPage == 0}" aria-hidden="true">&laquo;&laquo;</span>
             </li>
 
             <!-- Botão Anterior -->
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage - 1}, size=${pageSize})}">
-                    <i class="fas fa-chevron-left"></i> Anterior
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage - 1}, size=${pageSize})}"
+                   th:if="${currentPage > 0}" aria-label="Anterior">
+                    <span aria-hidden="true">&laquo;</span>
                 </a>
+                <span class="page-link" th:if="${currentPage == 0}" aria-hidden="true">&laquo;</span>
             </li>
 
-            <!-- Números de Página (com lógica inteligente) -->
-            <li class="page-item" th:if="${currentPage > 2}" th:classappend="${currentPage == 0} ? 'active'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=0, size=${pageSize})}">1</a>
-            </li>
-
-            <li class="page-item disabled" th:if="${currentPage > 3}">
-                <span class="page-link">...</span>
-            </li>
-
-            <li class="page-item" th:each="i : ${#numbers.sequence(currentPage > 1 ? currentPage - 1 : 0,
-                                                                     currentPage < totalPages - 2 ? currentPage + 1 : totalPages - 1)}"
+            <!-- NÚMEROS DE PÁGINA (SEM DUPLICAÇÃO) -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(
+                totalPages <= 5 ? 0 : (currentPage <= 2 ? 0 : (currentPage >= totalPages - 3 ? totalPages - 5 : currentPage - 2)),
+                totalPages <= 5 ? totalPages - 1 : (currentPage <= 2 ? 4 : (currentPage >= totalPages - 3 ? totalPages - 1 : currentPage + 2))
+            )}"
                 th:classappend="${i == currentPage} ? 'active'">
                 <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${i}, size=${pageSize})}"
                    th:text="${i + 1}"></a>
             </li>
 
-            <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
-                <span class="page-link">...</span>
-            </li>
-
-            <li class="page-item" th:if="${currentPage < totalPages - 3}"
-                th:classappend="${currentPage == totalPages - 1} ? 'active'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${totalPages - 1}, size=${pageSize})}"
-                   th:text="${totalPages}"></a>
-            </li>
-
             <!-- Botão Próxima -->
             <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage + 1}, size=${pageSize})}">
-                    Próxima <i class="fas fa-chevron-right"></i>
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${currentPage + 1}, size=${pageSize})}"
+                   th:if="${currentPage < totalPages - 1}" aria-label="Próxima">
+                    <span aria-hidden="true">&raquo;</span>
                 </a>
+                <span class="page-link" th:if="${currentPage == totalPages - 1}" aria-hidden="true">&raquo;</span>
             </li>
 
-            <!-- Botão Última Página -->
+            <!-- Botão Última -->
             <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${totalPages - 1}, size=${pageSize})}">
-                    Última <i class="fas fa-angle-double-right"></i>
+                <a class="page-link" th:href="@{/filmes(filtro=${filtro}, page=${totalPages - 1}, size=${pageSize})}"
+                   th:if="${currentPage < totalPages - 1}" aria-label="Última">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
                 </a>
+                <span class="page-link" th:if="${currentPage == totalPages - 1}" aria-hidden="true">&raquo;&raquo;</span>
             </li>
         </ul>
 
-        <!-- Informação de Página -->
-        <div class="text-center mt-3">
-            <small th:text="'Página ' + (${currentPage} + 1) + ' de ' + ${totalPages} + ' | Total: ' + ${totalItems} + ' filmes'"></small>
+        <div class="pagination-info">
+            <span th:text="'Página ' + (${currentPage} + 1) + ' de ' + ${totalPages}"></span>
         </div>
     </nav>
 

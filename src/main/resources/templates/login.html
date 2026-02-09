@@ -14,13 +14,18 @@
         <div class="login-header">
             <i class="fas fa-film"></i>
             <h1>🎬 MyWatchlist</h1>
-            <p>Entre para gerenciar sua lista de filmes</p>
+            <p>Faça login para acessar sua lista de filmes</p>
         </div>
 
         <!-- MENSAGEM DE FEEDBACK -->
-        <div th:if="${mensagem}" class="alert" th:classappend="${sucesso} ? 'alert-success' : 'alert-danger'">
-            <i th:classappend="${sucesso} ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
-            <span th:text="${mensagem}"></span>
+        <div th:if="${param.error}" class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Usuário ou senha inválidos!</span>
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <span>Você foi desconectado com sucesso!</span>
         </div>
 
         <!-- FORMULÁRIO DE LOGIN -->

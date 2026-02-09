@@ -18,11 +18,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll() // Recursos estáticos
-                        .requestMatchers("/filmes/novo").authenticated() // Requer login
-                        .requestMatchers("/filmes/*/editar").authenticated() // Requer login - PATTERN CORRIGIDO
-                        .requestMatchers("/filmes/*/deletar").authenticated() // Requer login - PATTERN CORRIGIDO
-                        .anyRequest().permitAll() // Outros endpoints públicos
+                        // Recursos estáticos e login são públicos
+                        .requestMatchers(
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/webjars/**",
+                                "/favicon.ico",
+                                "/login",
+                                "/",
+                                "/index"
+                        ).permitAll()
+                        // TODAS as outras requisições requerem autenticação
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login") // Página de login personalizada
@@ -35,7 +43,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout") // URL para logout
-                        .logoutSuccessUrl("/filmes?logout=true") // Redireciona após logout
+                        .logoutSuccessUrl("/login?logout=true") // Redireciona para login após logout
                         .invalidateHttpSession(true) // Invalida sessão
                         .deleteCookies("JSESSIONID") // Deleta cookies
                         .permitAll()
